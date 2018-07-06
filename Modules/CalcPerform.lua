@@ -278,6 +278,15 @@ local function doActorMisc(env, actor)
 		enemyDB:AddMod(value.mod)
 	end
 
+	if env.mode_combat then
+		if enemyDB:Sum("FLAG", nil, "Shock") then
+			local initialEffect = modDB:Sum("OVERRIDE", nil, "EnemyShockEffect") or 0.1
+			local effect = initialEffect * (1 + (modDB:Sum("INC", nil, "EnemyShockEffect") / 100))
+			effect = m_min(effect, 50)
+			enemyDB:NewMod("DamageTaken", "INC", effect,  string.format("Shock", initialEffect))
+		end
+	end
+
 	-- Add misc buffs/debuffs
 	if env.mode_combat then
 		if modDB:Sum("FLAG", nil, "Fortify") then

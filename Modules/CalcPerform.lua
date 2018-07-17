@@ -621,6 +621,8 @@ function calcs.perform(env)
 	for _, value in ipairs(modDB:Sum("LIST", nil, "ExtraAuraEffect")) do
 		t_insert(extraAuraModList, value.mod)
 	end
+	
+	modDB.multipliers["SummonedGolems"] = modDB:Sum("BASE", nil, "ActiveGolemLimit") + 1
 
 	-- Combine buffs/debuffs 
 	output.EnemyCurseLimit = modDB:Sum("BASE", nil, "EnemyCurseLimit")
